@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Product, Category, BlogPost } from '../types';
 import ProductCard from './ProductCard';
@@ -83,7 +84,7 @@ const CategoryJump: React.FC<{ onSelectCategory: (page: string, category: Catego
     );
 };
 
-const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product: Product) => void; }> = ({ products, onViewProduct }) => {
+const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product: Product) => void }> = ({ products, onViewProduct }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const itemsToShow = 4;
     const canGoPrev = currentIndex > 0;
@@ -112,7 +113,7 @@ const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product:
     );
 };
 
-const PromotionsBanner: React.FC<{ onShopNow: () => void; }> = ({ onShopNow }) => (
+const PromotionsBanner: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => (
     <div className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-gradient-to-r from-brand-secondary to-green-400 dark:from-brand-accent dark:to-gray-700 text-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row justify-between items-center">

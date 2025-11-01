@@ -1,16 +1,20 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ProductsPage from './components/ProductsPage';
-import HomePage from './components/HomePage';
-import ContactPage from './components/ContactPage';
-import BlogPage from './components/BlogPage';
 import { Product, Category, BlogPost, BlogCategory, Subcategories } from './types';
-import BlogPostPage from './components/BlogPostPage';
-import ProductDetailPage from './components/ProductDetailPage';
-import AboutPage from './components/AboutPage';
-import OrganicFarmingPage from './components/OrganicFarmingPage';
-import LabServicesPage from './components/LabServicesPage';
+import ChatAssistant from './components/ChatAssistant';
+
+// Lazy load page components to enable code-splitting
+const HomePage = lazy(() => import('./components/HomePage'));
+const ProductsPage = lazy(() => import('./components/ProductsPage'));
+const ContactPage = lazy(() => import('./components/ContactPage'));
+const BlogPage = lazy(() => import('./components/BlogPage'));
+const BlogPostPage = lazy(() => import('./components/BlogPostPage'));
+const ProductDetailPage = lazy(() => import('./components/ProductDetailPage'));
+const AboutPage = lazy(() => import('./components/AboutPage'));
+const OrganicFarmingPage = lazy(() => import('./components/OrganicFarmingPage'));
+const LabServicesPage = lazy(() => import('./components/LabServicesPage'));
+
 
 const MOCK_PRODUCTS: Product[] = [
   // Agriculture
@@ -42,6 +46,12 @@ const MOCK_POSTS: BlogPost[] = [
     { id: 3, title: 'The Future of Aquaculture: Probiotics vs. Antibiotics', date: 'July 25, 2024', author: 'Dr. Vikram Singh', category: BlogCategory.Research, tags: ['aquaculture', 'probiotics', 'sustainability'], imageUrl: 'https://picsum.photos/600/400?shrimp,farm', excerpt: 'A deep dive into the growing body of research supporting the use of probiotics for disease prevention in shrimp and fish farming.', content: 'For decades, antibiotics were the go-to solution for disease outbreaks in aquaculture. However, concerns about antibiotic resistance have shifted the focus towards preventative measures like probiotics.\nProbiotics work by introducing beneficial bacteria to the pond ecosystem, which outcompete pathogenic bacteria and improve water quality, leading to healthier aquatic life.' },
     { id: 4, title: 'A Farmer\'s Success with Our Seed Treatment', date: 'July 18, 2024', author: 'Customer Stories', category: BlogCategory.Success, tags: ['testimonial', 'agriculture', 'seeds'], imageUrl: 'https://picsum.photos/600/400?farmer,happy', excerpt: 'Read how Mr. Ramesh Patil from Maharashtra transformed his farm\'s productivity using our bio-stimulant seed treatment.', content: '"I was skeptical at first," says Ramesh, "but the results were undeniable. Germination rates were higher, and the plants were visibly healthier from the start."\nHis story is a testament to the power of investing in quality inputs right from the beginning of the crop cycle.' },
 ];
+
+const LoadingSpinner: React.FC = () => (
+  <div className="flex justify-center items-center min-h-[60vh]">
+    <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-brand-secondary"></div>
+  </div>
+);
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -194,10 +204,13 @@ const App: React.FC = () => {
         setSearchTerm={setSearchTerm}
         setCurrentPage={handleSetCurrentPage}
       />
-      <div className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {renderPage()}
-      </div>
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Suspense fallback={<LoadingSpinner />}>
+          {renderPage()}
+        </Suspense>
+      </main>
       <Footer />
+      <ChatAssistant />
     </div>
   );
 };

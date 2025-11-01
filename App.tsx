@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -209,7 +210,7 @@ const App: React.FC = () => {
           {renderPage()}
         </Suspense>
       </main>
-      <Footer />
+      <Footer setCurrentPage={handleSetCurrentPage} />
       <ChatAssistant />
     </div>
   );

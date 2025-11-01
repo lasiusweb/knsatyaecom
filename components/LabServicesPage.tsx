@@ -1,4 +1,13 @@
+
 import React from 'react';
+
+const services = [
+    { name: 'Soil Testing', description: 'Analysis of pH, nutrients (N, P, K), organic carbon, and micronutrients to optimize fertilizer use.' },
+    { name: 'Water Testing', description: 'Essential for aquaculture and irrigation. We test for hardness, pH, ammonia, nitrites, and contaminants.' },
+    { name: 'Food Testing', description: 'FSSAI-compliant testing for microbial contamination, nutritional value, pesticides, and heavy metals.' },
+    { name: 'Beauty Products', description: 'Testing for stability, microbial content, and presence of heavy metals in cosmetic formulations.' },
+    { name: 'Environment', description: 'Analysis of industrial effluents (ETP/STP) for regulatory compliance, including BOD, COD, and TSS.' },
+];
 
 const LabServicesPage: React.FC = () => {
     
@@ -20,59 +29,20 @@ const LabServicesPage: React.FC = () => {
       </div>
 
       {/* List of Tests */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16 text-center">
-        {['Soil', 'Water', 'Food', 'Beauty Products', 'Environment'].map(service => (
-            <div key={service} className="bg-white dark:bg-dark-surface p-6 rounded-lg shadow-md">
-                <h3 className="font-bold text-lg text-brand-secondary">{service} Testing</h3>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {services.map(service => (
+            <div key={service.name} className="bg-white dark:bg-dark-surface p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                <h3 className="font-bold text-xl text-brand-secondary mb-2">{service.name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{service.description}</p>
             </div>
         ))}
-      </div>
-
-      {/* Pricing Table */}
-      <div className="max-w-4xl mx-auto mb-16">
-        <h2 className="text-3xl font-bold text-center text-brand-accent dark:text-brand-primary mb-8">Test Packages</h2>
-        <div className="overflow-x-auto">
-            <table className="w-full text-left bg-white dark:bg-dark-surface rounded-lg shadow-lg">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th className="p-4 font-bold text-brand-accent dark:text-brand-primary">Feature</th>
-                        <th className="p-4 font-bold text-brand-accent dark:text-brand-primary">Basic</th>
-                        <th className="p-4 font-bold text-brand-accent dark:text-brand-primary">Standard</th>
-                        <th className="p-4 font-bold text-brand-accent dark:text-brand-primary">Premium</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
-                    <tr className="text-gray-600 dark:text-gray-300">
-                        <td className="p-4">No. of Parameters</td>
-                        <td className="p-4">5</td>
-                        <td className="p-4">15</td>
-                        <td className="p-4">25+</td>
-                    </tr>
-                    <tr className="text-gray-600 dark:text-gray-300">
-                        <td className="p-4">Turnaround Time</td>
-                        <td className="p-4">5-7 Days</td>
-                        <td className="p-4">3-5 Days</td>
-                        <td className="p-4">1-2 Days</td>
-                    </tr>
-                    <tr className="text-gray-600 dark:text-gray-300">
-                        <td className="p-4">Consultation</td>
-                        <td className="p-4">-</td>
-                        <td className="p-4">✓</td>
-                        <td className="p-4">✓</td>
-                    </tr>
-                    <tr className="font-bold text-brand-accent dark:text-brand-primary">
-                        <td className="p-4">Price</td>
-                        <td className="p-4">$50</td>
-                        <td className="p-4">$120</td>
-                        <td className="p-4">$200</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div className="bg-gray-50 dark:bg-dark-bg p-6 rounded-lg shadow-md flex items-center justify-center">
+            <p className="font-bold text-center text-brand-accent dark:text-brand-primary">And many more custom tests available!</p>
         </div>
       </div>
       
       {/* Booking Form */}
-      <div className="grid md:grid-cols-2 gap-12 bg-white dark:bg-dark-surface p-8 rounded-lg shadow-xl max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-12 bg-white dark:bg-dark-surface p-8 rounded-lg shadow-xl max-w-5xl mx-auto mb-16">
         <div>
             <h2 className="text-2xl font-bold text-brand-accent dark:text-brand-primary mb-6">Book a Sample Pickup</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -90,6 +60,8 @@ const LabServicesPage: React.FC = () => {
                   <option>Soil</option>
                   <option>Water</option>
                   <option>Food Product</option>
+                  <option>Beauty Product</option>
+                  <option>Environment Sample</option>
                   <option>Other</option>
                 </select>
               </div>
@@ -108,6 +80,25 @@ const LabServicesPage: React.FC = () => {
                 <li><span className="font-semibold">We Test:</span> Your sample is processed at our state-of-the-art facility.</li>
                 <li><span className="font-semibold">Get Report:</span> Receive a detailed digital report via email.</li>
              </ol>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+       <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-brand-accent dark:text-brand-primary mb-8">Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          <details className="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg cursor-pointer">
+            <summary className="font-semibold text-brand-accent dark:text-gray-200">How long does it take to get my results?</summary>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Turnaround time varies by test, but most reports are delivered within 3-5 business days after the sample reaches our lab.</p>
+          </details>
+           <details className="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg cursor-pointer">
+            <summary className="font-semibold text-brand-accent dark:text-gray-200">How should I prepare my sample for pickup?</summary>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Our team will provide you with specific instructions based on the sample type when they call to confirm your pickup.</p>
+          </details>
+           <details className="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg cursor-pointer">
+            <summary className="font-semibold text-brand-accent dark:text-gray-200">Are your reports accepted by regulatory bodies?</summary>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Yes, our lab is NABL accredited and our reports are widely accepted for regulatory and certification purposes.</p>
+          </details>
         </div>
       </div>
     </div>

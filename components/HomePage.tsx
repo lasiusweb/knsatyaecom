@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Product, Category, BlogPost } from '../types';
 import ProductCard from './ProductCard';
@@ -11,7 +12,8 @@ const heroTaglines = [
     { title: "Empowering Farmers, Enriching Nature", subtitle: "Explore our innovative products for a greener, more prosperous future." },
 ];
 
-const Hero: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => {
+// Fix: Changed component to a function declaration.
+function Hero({ onShopNow }: { onShopNow: () => void }) {
     const [currentTagline, setCurrentTagline] = useState(0);
 
     useEffect(() => {
@@ -34,9 +36,11 @@ const Hero: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => {
             </div>
         </div>
     );
-};
+}
 
-const TrustIndicators: React.FC = () => (
+// Fix: Changed component to a function declaration.
+function TrustIndicators() {
+    return (
     <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md -mt-12 relative z-10 mx-auto max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-700">
             <div className="p-6 text-center">
@@ -53,9 +57,11 @@ const TrustIndicators: React.FC = () => (
             </div>
         </div>
     </div>
-);
+    );
+}
 
-const CategoryJump: React.FC<{ onSelectCategory: (page: string, category: Category) => void }> = ({ onSelectCategory }) => {
+// Fix: Changed component to a function declaration.
+function CategoryJump({ onSelectCategory }: { onSelectCategory: (page: string, category: Category) => void }) {
     const categories = [
         { name: Category.Agriculture, icon: AgricultureIcon, page: 'Products' },
         { name: Category.Aquaculture, icon: AquacultureIcon, page: 'Products' },
@@ -82,9 +88,10 @@ const CategoryJump: React.FC<{ onSelectCategory: (page: string, category: Catego
             </div>
         </div>
     );
-};
+}
 
-const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product: Product) => void }> = ({ products, onViewProduct }) => {
+// Fix: Changed component to a function declaration.
+function FeaturedProducts({ products, onViewProduct }: { products: Product[], onViewProduct: (product: Product) => void }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const itemsToShow = 4;
     const canGoPrev = currentIndex > 0;
@@ -111,26 +118,30 @@ const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product:
             </div>
         </div>
     );
-};
+}
 
-const PromotionsBanner: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => (
-    <div className="py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-gradient-to-r from-brand-secondary to-green-400 dark:from-brand-accent dark:to-gray-700 text-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row justify-between items-center">
-                <div>
-                    <h2 className="text-3xl font-bold mb-2">First Order Discount!</h2>
-                    <p>New to KN Biosciences? Get 15% off your first order of agriculture inputs. Use code: FARMER15</p>
+// Fix: Changed component to a function declaration.
+function PromotionsBanner({ onShopNow }: { onShopNow: () => void }) {
+    return (
+        <div className="py-12">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="bg-gradient-to-r from-brand-secondary to-green-400 dark:from-brand-accent dark:to-gray-700 text-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h2 className="text-3xl font-bold mb-2">First Order Discount!</h2>
+                        <p>New to KN Biosciences? Get 15% off your first order of agriculture inputs. Use code: FARMER15</p>
+                    </div>
+                    <button onClick={onShopNow} className="mt-4 md:mt-0 bg-white text-brand-secondary font-bold py-3 px-6 rounded-full hover:bg-gray-100 transition-colors">
+                        Shop Now
+                    </button>
                 </div>
-                <button onClick={onShopNow} className="mt-4 md:mt-0 bg-white text-brand-secondary font-bold py-3 px-6 rounded-full hover:bg-gray-100 transition-colors">
-                    Shop Now
-                </button>
             </div>
         </div>
     );
-);
+}
 
-
-const CEOVideoMessage: React.FC = () => (
+// Fix: Changed component to a function declaration.
+function CEOVideoMessage() {
+    return (
     <div className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center bg-white dark:bg-dark-surface p-8 rounded-lg shadow-md">
@@ -147,9 +158,12 @@ const CEOVideoMessage: React.FC = () => (
             </div>
         </div>
     </div>
-);
+    );
+}
 
-const BlogHighlights: React.FC<{ posts: BlogPost[], onReadPost: (post: BlogPost) => void }> = ({ posts, onReadPost }) => (
+// Fix: Changed component to a function declaration.
+function BlogHighlights({ posts, onReadPost }: { posts: BlogPost[], onReadPost: (post: BlogPost) => void }) {
+    return (
     <div className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-brand-accent dark:text-brand-primary mb-12">Tips for Farmers & Latest News</h2>
@@ -160,7 +174,8 @@ const BlogHighlights: React.FC<{ posts: BlogPost[], onReadPost: (post: BlogPost)
             </div>
         </div>
     </div>
-);
+    );
+}
 
 
 interface HomePageProps {
@@ -172,7 +187,8 @@ interface HomePageProps {
     onViewProduct: (product: Product) => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ products, posts, onShopNow, onSelectCategory, onReadPost, onViewProduct }) => {
+// Fix: Changed component to a default exported function declaration to resolve module loading issues.
+export default function HomePage({ products, posts, onShopNow, onSelectCategory, onReadPost, onViewProduct }: HomePageProps) {
   return (
     <div className="space-y-8">
       <Hero onShopNow={onShopNow} />
@@ -184,6 +200,4 @@ const HomePage: React.FC<HomePageProps> = ({ products, posts, onShopNow, onSelec
       <BlogHighlights posts={posts} onReadPost={onReadPost} />
     </div>
   );
-};
-
-export default HomePage;
+}

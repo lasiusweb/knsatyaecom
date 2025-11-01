@@ -2,7 +2,11 @@
 import React from 'react';
 import { LeafIcon } from './icons';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  setCurrentPage: (page: string) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
   return (
     <footer className="bg-brand-accent dark:bg-dark-surface text-brand-primary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -17,10 +21,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-brand-secondary">Home</a></li>
-              <li><a href="#" className="hover:text-brand-secondary">About Us</a></li>
-              <li><a href="#" className="hover:text-brand-secondary">Products</a></li>
-              <li><a href="#" className="hover:text-brand-secondary">Contact</a></li>
+              <li><button onClick={() => setCurrentPage('Home')} className="hover:text-brand-secondary transition-colors">Home</button></li>
+              <li><button onClick={() => setCurrentPage('About')} className="hover:text-brand-secondary transition-colors">About Us</button></li>
+              <li><button onClick={() => setCurrentPage('Products')} className="hover:text-brand-secondary transition-colors">Products</button></li>
+              <li><button onClick={() => setCurrentPage('Contact')} className="hover:text-brand-secondary transition-colors">Contact</button></li>
             </ul>
           </div>
           <div>

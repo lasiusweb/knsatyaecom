@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { Product, Category, BlogPost } from '../types';
 import ProductCard from './ProductCard';
@@ -12,8 +11,7 @@ const heroTaglines = [
     { title: "Empowering Farmers, Enriching Nature", subtitle: "Explore our innovative products for a greener, more prosperous future." },
 ];
 
-// Fix: Changed component to a function declaration.
-function Hero({ onShopNow }: { onShopNow: () => void }) {
+const Hero: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => {
     const [currentTagline, setCurrentTagline] = useState(0);
 
     useEffect(() => {
@@ -36,10 +34,9 @@ function Hero({ onShopNow }: { onShopNow: () => void }) {
             </div>
         </div>
     );
-}
+};
 
-// Fix: Changed component to a function declaration.
-function TrustIndicators() {
+const TrustIndicators: React.FC = () => {
     return (
     <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md -mt-12 relative z-10 mx-auto max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-700">
@@ -58,10 +55,9 @@ function TrustIndicators() {
         </div>
     </div>
     );
-}
+};
 
-// Fix: Changed component to a function declaration.
-function CategoryJump({ onSelectCategory }: { onSelectCategory: (page: string, category: Category) => void }) {
+const CategoryJump: React.FC<{ onSelectCategory: (page: string, category: Category) => void }> = ({ onSelectCategory }) => {
     const categories = [
         { name: Category.Agriculture, icon: AgricultureIcon, page: 'Products' },
         { name: Category.Aquaculture, icon: AquacultureIcon, page: 'Products' },
@@ -88,10 +84,9 @@ function CategoryJump({ onSelectCategory }: { onSelectCategory: (page: string, c
             </div>
         </div>
     );
-}
+};
 
-// Fix: Changed component to a function declaration.
-function FeaturedProducts({ products, onViewProduct }: { products: Product[], onViewProduct: (product: Product) => void }) {
+const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product: Product) => void }> = ({ products, onViewProduct }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const itemsToShow = 4;
     const canGoPrev = currentIndex > 0;
@@ -118,10 +113,9 @@ function FeaturedProducts({ products, onViewProduct }: { products: Product[], on
             </div>
         </div>
     );
-}
+};
 
-// Fix: Changed component to a function declaration.
-function PromotionsBanner({ onShopNow }: { onShopNow: () => void }) {
+const PromotionsBanner: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => {
     return (
         <div className="py-12">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -137,10 +131,9 @@ function PromotionsBanner({ onShopNow }: { onShopNow: () => void }) {
             </div>
         </div>
     );
-}
+};
 
-// Fix: Changed component to a function declaration.
-function CEOVideoMessage() {
+const CEOVideoMessage: React.FC = () => {
     return (
     <div className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -159,10 +152,9 @@ function CEOVideoMessage() {
         </div>
     </div>
     );
-}
+};
 
-// Fix: Changed component to a function declaration.
-function BlogHighlights({ posts, onReadPost }: { posts: BlogPost[], onReadPost: (post: BlogPost) => void }) {
+const BlogHighlights: React.FC<{ posts: BlogPost[], onReadPost: (post: BlogPost) => void }> = ({ posts, onReadPost }) => {
     return (
     <div className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -175,7 +167,7 @@ function BlogHighlights({ posts, onReadPost }: { posts: BlogPost[], onReadPost: 
         </div>
     </div>
     );
-}
+};
 
 
 interface HomePageProps {
@@ -187,8 +179,7 @@ interface HomePageProps {
     onViewProduct: (product: Product) => void;
 }
 
-// Fix: Changed component to a default exported function declaration to resolve module loading issues.
-export default function HomePage({ products, posts, onShopNow, onSelectCategory, onReadPost, onViewProduct }: HomePageProps) {
+const HomePage: React.FC<HomePageProps> = ({ products, posts, onShopNow, onSelectCategory, onReadPost, onViewProduct }) => {
   return (
     <div className="space-y-8">
       <Hero onShopNow={onShopNow} />
@@ -200,4 +191,6 @@ export default function HomePage({ products, posts, onShopNow, onSelectCategory,
       <BlogHighlights posts={posts} onReadPost={onReadPost} />
     </div>
   );
-}
+};
+
+export default HomePage;

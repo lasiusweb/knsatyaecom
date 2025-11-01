@@ -8,9 +8,12 @@ interface HeaderProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   setCurrentPage: (page: string, category?: Category) => void;
+  isLoggedIn: boolean;
+  userName: string | null;
+  onSignOut: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, searchTerm, setSearchTerm, setCurrentPage }) => {
+const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, searchTerm, setSearchTerm, setCurrentPage, isLoggedIn, userName, onSignOut }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const productCategories = [
@@ -91,6 +94,25 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, searchTerm, s
               />
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             </div>
+            
+            {isLoggedIn ? (
+                <div className="flex items-center space-x-4">
+                    <span className="hidden lg:block text-sm font-medium text-brand-accent dark:text-gray-300">Welcome, {userName}!</span>
+                    <button onClick={onSignOut} className="px-4 py-2 text-sm font-medium text-brand-accent dark:text-gray-300 border border-brand-accent dark:border-gray-500 rounded-full hover:bg-brand-accent/10 dark:hover:bg-dark-surface/50 transition-colors">
+                        Log Out
+                    </button>
+                </div>
+            ) : (
+                <div className="hidden md:flex items-center space-x-2">
+                    <button onClick={() => setCurrentPage('SignIn')} className="px-4 py-2 text-sm font-medium text-brand-accent dark:text-gray-300 rounded-full hover:bg-brand-accent/10 dark:hover:bg-dark-surface/50 transition-colors">
+                        Sign In
+                    </button>
+                    <button onClick={() => setCurrentPage('SignUp')} className="px-4 py-2 text-sm font-medium text-white bg-brand-secondary rounded-full hover:bg-opacity-90 transition-colors">
+                        Sign Up
+                    </button>
+                </div>
+            )}
+
             <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition-colors duration-200">
               {darkMode ? <SunIcon className="h-6 w-6 text-yellow-400" /> : <MoonIcon className="h-6 w-6 text-brand-accent" />}
             </button>

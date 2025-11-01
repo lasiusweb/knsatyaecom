@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -15,6 +14,8 @@ const ProductDetailPage = lazy(() => import('./components/ProductDetailPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const OrganicFarmingPage = lazy(() => import('./components/OrganicFarmingPage'));
 const LabServicesPage = lazy(() => import('./components/LabServicesPage'));
+const SignInPage = lazy(() => import('./components/SignInPage'));
+const SignUpPage = lazy(() => import('./components/SignUpPage'));
 
 
 const MOCK_PRODUCTS: Product[] = [
@@ -48,6 +49,9 @@ const MOCK_POSTS: BlogPost[] = [
     { id: 4, title: 'A Farmer\'s Success with Our Seed Treatment', date: 'July 18, 2024', author: 'Customer Stories', category: BlogCategory.Success, tags: ['testimonial', 'agriculture', 'seeds'], imageUrl: 'https://picsum.photos/600/400?farmer,happy', excerpt: 'Read how Mr. Ramesh Patil from Maharashtra transformed his farm\'s productivity using our bio-stimulant seed treatment.', content: '"I was skeptical at first," says Ramesh, "but the results were undeniable. Germination rates were higher, and the plants were visibly healthier from the start."\nHis story is a testament to the power of investing in quality inputs right from the beginning of the crop cycle.' },
 ];
 
+// User type
+type User = { name: string; email: string; };
+
 const LoadingSpinner: React.FC = () => (
   <div className="flex justify-center items-center min-h-[60vh]">
     <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-brand-secondary"></div>
@@ -63,6 +67,7 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('Home');
   const [viewingPost, setViewingPost] = useState<BlogPost | null>(null);
   const [viewingProduct, setViewingProduct] = useState<Product | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (darkMode) {
@@ -125,6 +130,24 @@ const App: React.FC = () => {
       setViewingProduct(null);
       window.scrollTo(0, 0);
   };
+
+  const handleSignIn = (user: User) => {
+    setCurrentUser(user);
+    setCurrentPage('Home');
+    window.scrollTo(0, 0);
+  };
+
+  const handleSignUp = (user: User) => {
+    setCurrentUser(user);
+    setCurrentPage('Home');
+    window.scrollTo(0, 0);
+  };
+
+  const handleSignOut = () => {
+    setCurrentUser(null);
+    setCurrentPage('Home');
+  };
+
 
   const productCategories = useMemo(() => {
     return [
@@ -191,6 +214,10 @@ const App: React.FC = () => {
             return <LabServicesPage />;
         case 'Contact':
             return <ContactPage />;
+        case 'SignIn':
+            return <SignInPage onSignIn={handleSignIn} onSignUpClick={() => handleSetCurrentPage('SignUp')} onDemoLogin={handleSignIn} />;
+        case 'SignUp':
+            return <SignUpPage onSignUp={handleSignUp} onSignInClick={() => handleSetCurrentPage('SignIn')} />;
         default:
             return <HomePage products={MOCK_PRODUCTS} posts={MOCK_POSTS} onShopNow={handleShopNow} onSelectCategory={handleHomePageCategoryJump} onReadPost={handleReadPost} onViewProduct={handleViewProduct} />;
     }
@@ -204,6 +231,9 @@ const App: React.FC = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         setCurrentPage={handleSetCurrentPage}
+        isLoggedIn={!!currentUser}
+        userName={currentUser?.name || null}
+        onSignOut={handleSignOut}
       />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Suspense fallback={<LoadingSpinner />}>

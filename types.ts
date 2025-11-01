@@ -19,6 +19,16 @@ export const Subcategories: Record<string, string[]> = {
 
 export type ProductCtaType = 'e-commerce' | 'b2b' | 'equipment';
 
+export type StockStatus = 'in-stock' | 'low-stock' | 'out-of-stock';
+
+export interface Variant {
+  id: string; // e.g., "1-500ml"
+  name: string; // e.g., "500ml", "1kg"
+  price: number;
+  imageUrl?: string;
+  stock: StockStatus;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -34,6 +44,7 @@ export interface Product {
   reviewCount: number;
   isBestseller: boolean;
   frequentlyBoughtWith?: number[];
+  variants?: Variant[];
 }
 
 export enum BlogCategory {
@@ -53,4 +64,19 @@ export interface BlogPost {
   imageUrl: string;
   excerpt: string;
   content: string;
+}
+// Fix: Centralize User and Order types
+export interface User {
+  name: string;
+  email: string;
+}
+
+export type OrderStatus = 'Delivered' | 'Processing' | 'Cancelled';
+
+export interface Order {
+  id: string;
+  date: string;
+  total: number;
+  status: OrderStatus;
+  items: (Product & { quantity: number })[];
 }

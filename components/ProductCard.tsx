@@ -5,6 +5,7 @@ import { StarIcon } from './icons';
 interface ProductCardProps {
   product: Product;
   onViewProduct: (product: Product) => void;
+  onQuickView: (product: Product) => void;
 }
 
 const StarRating: React.FC<{ rating: number; reviewCount: number }> = ({ rating, reviewCount }) => (
@@ -16,7 +17,7 @@ const StarRating: React.FC<{ rating: number; reviewCount: number }> = ({ rating,
   </div>
 );
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct, onQuickView }) => {
   const renderCTA = () => {
     switch (product.ctaType) {
       case 'b2b':
@@ -37,6 +38,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct }) => 
     }
   };
 
+  const handleQuickViewClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onQuickView(product);
+  };
+
   return (
     <div 
       className="group perspective-1000 h-full cursor-pointer"
@@ -46,7 +52,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct }) => 
       <div className="bg-white dark:bg-dark-surface rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-2xl group-hover:-translate-y-2 flex flex-col h-full">
         <div className="relative">
           <img src={product.imageUrl} alt={product.name} className="w-full h-56 object-cover" />
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <button
+              onClick={handleQuickViewClick}
+              className="bg-white/90 text-brand-accent font-bold py-2 px-6 rounded-full transform scale-90 group-hover:scale-100 transition-transform duration-200 ease-in-out"
+            >
+              Quick View
+            </button>
+          </div>
           {product.isBestseller && (
             <span className="absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full animate-pulse">Farmer's Choice</span>
           )}

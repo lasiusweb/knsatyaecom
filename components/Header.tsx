@@ -15,6 +15,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, searchTerm, setSearchTerm, setCurrentPage, isLoggedIn, userName, onSignOut }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const productCategories = [
     Category.Agriculture,
@@ -96,11 +97,25 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, searchTerm, s
             </div>
             
             {isLoggedIn ? (
-                <div className="flex items-center space-x-4">
-                    <span className="hidden lg:block text-sm font-medium text-brand-accent dark:text-gray-300">Welcome, {userName}!</span>
-                    <button onClick={onSignOut} className="px-4 py-2 text-sm font-medium text-brand-accent dark:text-gray-300 border border-brand-accent dark:border-gray-500 rounded-full hover:bg-brand-accent/10 dark:hover:bg-dark-surface/50 transition-colors">
-                        Log Out
+                <div className="relative">
+                    <button 
+                        onClick={() => setUserMenuOpen(!userMenuOpen)} 
+                        onBlur={() => setTimeout(() => setUserMenuOpen(false), 200)}
+                        className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-brand-accent dark:text-gray-300 border border-brand-accent/50 dark:border-gray-600 rounded-full hover:bg-brand-accent/10 dark:hover:bg-dark-surface/50 transition-colors"
+                    >
+                        <span>Welcome, {userName}!</span>
+                        <svg className={`w-4 h-4 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
+                    {userMenuOpen && (
+                        <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-dark-surface rounded-md shadow-lg py-2 z-50 animate-fade-in-down">
+                             <button onClick={() => { setCurrentPage('Profile'); setUserMenuOpen(false); }} className="block w-full text-left px-4 py-2 text-sm text-brand-accent dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                My Account
+                            </button>
+                            <button onClick={onSignOut} className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Log Out
+                            </button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="hidden md:flex items-center space-x-2">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LeafIcon } from './icons';
-
-type User = { name: string; email: string; };
+// Fix: Import centralized User type
+import { User } from '../types';
 
 interface SignUpPageProps {
   onSignUp: (user: User) => void;

@@ -11,6 +11,40 @@ const heroTaglines = [
     { title: "Empowering Farmers, Enriching Nature", subtitle: "Explore our innovative products for a greener, more prosperous future." },
 ];
 
+// SKELETON LOADER COMPONENTS
+const ProductCardSkeleton: React.FC = () => (
+    <div className="bg-white dark:bg-dark-surface rounded-lg shadow-lg overflow-hidden flex flex-col h-full animate-pulse">
+        <div className="w-full h-56 bg-gray-300 dark:bg-gray-600"></div>
+        <div className="p-4 flex-grow flex flex-col">
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+            <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-4"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 mb-4"></div>
+            <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+                <div className="h-8 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
+                <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-full w-2/5"></div>
+            </div>
+        </div>
+    </div>
+);
+
+const BlogPostCardSkeleton: React.FC = () => (
+    <div className="bg-white dark:bg-dark-surface rounded-lg shadow-lg overflow-hidden flex flex-col animate-pulse">
+        <div className="w-full h-56 bg-gray-300 dark:bg-gray-600"></div>
+        <div className="p-6 flex-grow flex flex-col">
+            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3 mb-4"></div>
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-full mb-2"></div>
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-4"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 mb-auto"></div>
+            <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-1/4 mt-4"></div>
+        </div>
+    </div>
+);
+
+
 const Hero: React.FC<{ onShopNow: () => void }> = ({ onShopNow }) => {
     const [currentTagline, setCurrentTagline] = useState(0);
 
@@ -86,30 +120,20 @@ const CategoryJump: React.FC<{ onSelectCategory: (page: string, category: Catego
     );
 };
 
-const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product: Product) => void }> = ({ products, onViewProduct }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const itemsToShow = 4;
-    const canGoPrev = currentIndex > 0;
-    const canGoNext = currentIndex < products.length - itemsToShow;
-
-    const handleNext = () => canGoNext && setCurrentIndex(currentIndex + 1);
-    const handlePrev = () => canGoPrev && setCurrentIndex(currentIndex - 1);
-    
+const FeaturedProducts: React.FC<{ products: Product[], onViewProduct: (product: Product) => void, onQuickView: (product: Product) => void, isLoading: boolean }> = ({ products, onViewProduct, onQuickView, isLoading }) => {
     return (
         <div className="py-16 bg-brand-primary dark:bg-dark-bg">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <h2 className="text-3xl font-bold text-center text-brand-accent dark:text-brand-primary mb-12">Featured Products</h2>
-                <div className="overflow-hidden">
-                    <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * (100 / itemsToShow)}%)` }}>
-                        {products.map(product => (
-                            <div key={product.id} className="w-full md:w-1/2 lg:w-1/4 flex-shrink-0 px-4">
-                                <ProductCard product={product} onViewProduct={onViewProduct} />
-                            </div>
-                        ))}
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {isLoading ? (
+                        Array.from({ length: 4 }).map((_, index) => <ProductCardSkeleton key={index} />)
+                    ) : (
+                        products.map(product => (
+                            <ProductCard key={product.id} product={product} onViewProduct={onViewProduct} onQuickView={onQuickView} />
+                        ))
+                    )}
                 </div>
-                {canGoPrev && <button onClick={handlePrev} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-dark-surface/80 p-2 rounded-full shadow-lg">&lt;</button>}
-                {canGoNext && <button onClick={handleNext} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-dark-surface/80 p-2 rounded-full shadow-lg">&gt;</button>}
             </div>
         </div>
     );
@@ -154,15 +178,19 @@ const CEOVideoMessage: React.FC = () => {
     );
 };
 
-const BlogHighlights: React.FC<{ posts: BlogPost[], onReadPost: (post: BlogPost) => void }> = ({ posts, onReadPost }) => {
+const BlogHighlights: React.FC<{ posts: BlogPost[], onReadPost: (post: BlogPost) => void, isLoading: boolean }> = ({ posts, onReadPost, isLoading }) => {
     return (
     <div className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-brand-accent dark:text-brand-primary mb-12">Tips for Farmers & Latest News</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {posts.slice(0, 3).map(post => (
-                    <BlogPostCard key={post.id} post={post} onReadMore={() => onReadPost(post)} />
-                ))}
+                {isLoading ? (
+                    Array.from({ length: 3 }).map((_, index) => <BlogPostCardSkeleton key={index} />)
+                ) : (
+                    posts.slice(0, 3).map(post => (
+                        <BlogPostCard key={post.id} post={post} onReadMore={() => onReadPost(post)} />
+                    ))
+                )}
             </div>
         </div>
     </div>
@@ -177,18 +205,21 @@ interface HomePageProps {
     onSelectCategory: (page: string, category: Category) => void;
     onReadPost: (post: BlogPost) => void;
     onViewProduct: (product: Product) => void;
+    onQuickView: (product: Product) => void;
+    productsLoading: boolean;
+    postsLoading: boolean;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ products, posts, onShopNow, onSelectCategory, onReadPost, onViewProduct }) => {
+const HomePage: React.FC<HomePageProps> = ({ products, posts, onShopNow, onSelectCategory, onReadPost, onViewProduct, onQuickView, productsLoading, postsLoading }) => {
   return (
     <div className="space-y-8">
       <Hero onShopNow={onShopNow} />
       <TrustIndicators />
       <CategoryJump onSelectCategory={onSelectCategory} />
-      <FeaturedProducts products={products.filter(p => p.isBestseller)} onViewProduct={onViewProduct} />
+      <FeaturedProducts products={products.filter(p => p.isBestseller)} onViewProduct={onViewProduct} onQuickView={onQuickView} isLoading={productsLoading} />
       <PromotionsBanner onShopNow={onShopNow} />
       <CEOVideoMessage />
-      <BlogHighlights posts={posts} onReadPost={onReadPost} />
+      <BlogHighlights posts={posts} onReadPost={onReadPost} isLoading={postsLoading} />
     </div>
   );
 };

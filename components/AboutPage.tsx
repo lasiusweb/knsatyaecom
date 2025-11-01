@@ -37,7 +37,7 @@ const AboutPage: React.FC = () => {
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-brand-secondary mb-8 text-center">Our Journey Since 1997</h2>
           <div className="relative wrap overflow-hidden p-10 h-full">
-            <div className="border-2-2 absolute border-opacity-20 border-gray-700 dark:border-gray-400 h-full border" style={{left: '50%'}}></div>
+            <div className="border-2 absolute border-opacity-20 border-gray-700 dark:border-gray-400 h-full border" style={{left: '50%'}}></div>
             <TimelineItem year="1997" title="The Beginning" text="Established our first tissue culture laboratory, laying the foundation for our journey in agri-biotechnology." align="left" />
             <TimelineItem year="2005" title="Diversification" text="Expanded our portfolio to include innovative solutions for the aquaculture and poultry sectors." align="right" />
             <TimelineItem year="2015" title="Innovation Milestone" text="Became the first company in India to launch Nano Fertilizers, revolutionizing nutrient delivery for small-scale farms." align="left" />
